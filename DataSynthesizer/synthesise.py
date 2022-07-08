@@ -7,6 +7,7 @@ different files.
 import random 
 import os
 import time
+import argparse
 
 import pandas as pd
 import numpy as np
@@ -79,14 +80,25 @@ mode_filepaths = {
 }
 
 
+
+
 def main():
     start = time.time()
+
 
     # "_df" is the usual way people refer to a Pandas DataFrame object
     hospital_ae_df = pd.read_csv(filepaths.hospital_ae_data_deidentify)
     
     # let's generate the same amount of rows as original data (though we don't have to)
     num_rows = 300
+    arg_parser = argparse.ArgumentParser(description='This module genrates synthetic data.')
+    arg_parser.add_argument('--output_rows',default=300,type=int, help='number of output rows.')
+    arg_parser.add_argument('--input_filepath', type=str, help='filepath including filename for the input dataset.')
+    args = arg_parser.parse_args()
+
+    num_rows = args.output_rows
+    input_filepath = args.input_filepath
+
     # iterate through the 3 modes to generate synthetic data
     for mode in ['correlated']:
 
